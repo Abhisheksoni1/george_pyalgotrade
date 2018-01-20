@@ -20,7 +20,7 @@ class wsTicker(object):
         #     self.api = Poloniex(jsonNums=float)
         # self.db = MongoClient().poloniex['ticker']
         # self.db.drop()
-        self.ws = websocket.WebSocketApp("wss://api.poloniex.com/",
+        self.ws = websocket.WebSocketApp("wss://api2.poloniex.com/",
                                          on_message=self.on_message,
                                          on_error=self.on_error,
                                          on_close=self.on_close)
@@ -76,7 +76,7 @@ class wsTicker(object):
         #         {'$set': tick[market]})
         logger.info('Populated markets database with ticker data')
         self.ws.send(json.dumps({'command': 'subscribe',
-                                 'channel': 'ticker'}))
+                                 'channel': 1002}))
 
     def start(self):
         self.t = Thread(target=self.ws.run_forever)
