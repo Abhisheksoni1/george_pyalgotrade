@@ -34,6 +34,7 @@ class wsTicker(object):
 
     def on_message(self, ws, message):
         message = json.loads(message)
+        logger.info(message)
         if 'error' in message:
             logger.info(message['error'])
             return
