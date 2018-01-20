@@ -96,7 +96,7 @@ if __name__ == "__main__":
     websocket.enableTrace(True)
     ticker = wsTicker()
     ticker.start()
-    for i in range(5):
-        sleep(10)
-        # pprint.pprint(ticker('USDT_BTC'))
-    ticker.stop()
+    # for i in range(5):
+    #     # sleep(10)
+    #     # pprint.pprint(ticker('USDT_BTC'))
+    # ticker.stop()
