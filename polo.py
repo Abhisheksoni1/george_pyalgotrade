@@ -93,7 +93,7 @@ class wsTicker(object):
 if __name__ == "__main__":
     import pprint
     from time import sleep
-    websocket.enableTrace(True)
+    # websocket.enableTrace(True)
     ticker = wsTicker()
     ticker.start()
     for i in range(5):
