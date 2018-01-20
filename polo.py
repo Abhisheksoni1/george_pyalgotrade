@@ -35,21 +35,21 @@ class wsTicker(object):
     def on_message(self, ws, message):
         message = json.loads(message)
         if 'error' in message:
-            print(message['error'])
+            logger.info(message['error'])
             return
 
         if message[0] == 1002:
             if message[1] == 1:
-                print('Subscribed to ticker')
+                logger.info('Subscribed to ticker')
                 return
 
             if message[1] == 0:
-                print('Unsubscribed to ticker')
+                logger.info('Unsubscribed to ticker')
                 return
 
             data = message[2]
 
-            print(
+            logger.info(
                 {"id": float(data[0])},
                 {"$set": {'last': data[1],
                           'lowestAsk': data[2],
@@ -63,18 +63,18 @@ class wsTicker(object):
                           }})
 
     def on_error(self, ws, error):
-        print(error)
+        logger.error(error)
 
     def on_close(self, ws):
-        print("Websocket closed!")
+        logger.warning("Websocket closed!")
 
     def on_open(self, ws):
-        tick = self.api.returnTicker()
-        for market in tick:
-            print(
-                {'_id': market},
-                {'$set': tick[market]})
-        print('Populated markets database with ticker data')
+        # tick = self.api.returnTicker()
+        # for market in tick:
+        #     print(
+        #         {'_id': market},
+        #         {'$set': tick[market]})
+        logger.info('Populated markets database with ticker data')
         self.ws.send(json.dumps({'command': 'subscribe',
                                  'channel': 'ticker'}))
 
@@ -82,12 +82,12 @@ class wsTicker(object):
         self.t = Thread(target=self.ws.run_forever)
         self.t.daemon = True
         self.t.start()
-        print('Thread started')
+        logger.info('Thread started')
 
     def stop(self):
         self.ws.close()
         self.t.join()
-        print('Thread joined')
+        logger.warning('Thread joined')
 
 
 if __name__ == "__main__":
@@ -96,6 +96,8 @@ if __name__ == "__main__":
     websocket.enableTrace(True)
     ticker = wsTicker()
     ticker.start()
+    while True:
+        pass
     # for i in range(5):
     #     # sleep(10)
     #     # pprint.pprint(ticker('USDT_BTC'))
